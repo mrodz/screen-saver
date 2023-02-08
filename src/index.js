@@ -10,4 +10,4 @@ root.render(
 	</React.StrictMode>
 )
 
-window.electron.signalClose()
+window?.electron?.signalClose?.()

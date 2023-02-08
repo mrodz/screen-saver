@@ -1,8 +1,11 @@
-
 @keyframes flip-card {
 	100% {
 		transform: rotateX(-90deg);
 	}
+}
+
+:root {
+	--flip-delay: .15s;
 }
 
 .digit {
@@ -10,8 +13,6 @@
 }
 
 .digit-card[data-prev] {
-	--flip-delay: .2s;
-
 	z-index: 2;
 }
 
@@ -27,7 +28,8 @@
 	clip-path: polygon(0% 0%, 0% 50%, 100% 50%, 100% 0%);
 }
 
-.digit-card[data-prev][data-bottom] {
+.digit-card[data-prev][data-bottom].animate-forward {
+	/* trans */
 	animation: flip-card var(--flip-delay) forwards;
 }
 

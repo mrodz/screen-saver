@@ -1,38 +1,45 @@
 import { useEffect, useRef, useState } from "react"
 import "./Clock.css"
 
-function Digit(baseTenDigit) {
-	const [digit, incrementDigit] = useDigit(baseTenDigit);
-
-	const delay = 200
+function Digit({ baseTenDigit }) {
+	const delay = 150
 
 	const topPrev = useRef(null)
 	const topNext = useRef(null)
+	const bottom = useRef(null)
+
+	// debugger;
 
 	useEffect(() => {
+		// bottom.current.setAttribute('style', 'transition: rotateX(-90deg) .15s')
+		// bottom.style = 
+		topPrev.current?.removeAttribute?.("data-hide")
+		topNext.current?.removeAttribute?.("data-show")
+		bottom.current.classList.toggle("animate-forward")
+		// bottom.current.classList.toggle("animate-forward")
+
+		// setTimeout(() => {
+		// 	bottom.current.classList.toggle("animate-forward")
+		// }, 0)
+		// debugger;
+
 		const id = setTimeout(() => {
-			topPrev.current.setAttribute("data-hide", true)
+			topPrev.current?.setAttribute?.("data-hide", true)
 			topNext.current.setAttribute("data-show", true)
 		}, delay)
 
 		return () => clearTimeout(id)
-	}, [])
+	}, [baseTenDigit])
+
+	const next = (baseTenDigit + 1) % 10
 
 	return (
 		<div className="digit">
-			<div className="digit-card" data-top data-prev ref={topPrev}>1</div>
-			<div className="digit-card" data-bottom data-prev>1</div>
+			<div className="digit-card" data-top data-prev ref={topPrev}>{baseTenDigit}</div>
+			<div className="digit-card" data-bottom data-prev ref={bottom}>{baseTenDigit}</div>
 
-			<div className="digit-card" data-top data-current ref={topNext}>8</div>
-			<div className="digit-card" data-bottom data-current>8</div>
-			{/* <div className="digit-card" data-next>2</div> */}
-			{/* <div className="digit-card" data-three>3</div>
-			<div className="digit-card" data-four>4</div>
-			<div className="digit-card" data-five>5</div>
-			<div className="digit-card" data-six>6</div>
-			<div className="digit-card" data-seven>7</div>
-			<div className="digit-card" data-eight>8</div>
-			<div className="digit-card" data-nine>9</div> */}
+			<div className="digit-card" data-top data-current ref={topNext}>{next}</div>
+			<div className="digit-card" data-bottom data-current>{next}</div>
 		</div>
 	)
 }
@@ -45,11 +52,7 @@ function useDigit(startAt) {
 
 	const increment = () => {
 		setCurrent(current => {
-			if (current == 9) {
-				return 0
-			}
-
-			return current + 1
+			return (current + 1) % 10
 		})
 	}
 
@@ -58,9 +61,11 @@ function useDigit(startAt) {
 
 export default function Clock() {
 	const [time, setTime] = useState(new Date());
+	const [seconds, incrementSeconds] = useDigit(0);
 
 	const updateClock = () => {
 		setTime(new Date())
+		// incrementSeconds()
 		// setTime((time) => (time ?? 0) + 1)
 	}
 
@@ -70,18 +75,23 @@ export default function Clock() {
 		const ms = onPageLoad.getMilliseconds()
 		const nextUpdateTick = 1_000 - ms
 
-		setTimeout(() => { }, nextUpdateTick);
+		const timeoutId = setTimeout(() => { }, nextUpdateTick);
 
 		const intervalId = setInterval(updateClock, 1_000)
 
-		return () => clearInterval(intervalId)
+		return () => {
+			clearTimeout(timeoutId)
+			clearInterval(intervalId)
+		}
 	}, [])
 
 	return (
 		<>
 			{JSON.stringify(time) ?? 'no time'}
 
-			<Digit baseTenDigit={0} />
+			<Digit baseTenDigit={seconds} />
+
+			<button onClick={() => incrementSeconds()}>+++++</button>
 			<br />
 			<br />
 			<br />
