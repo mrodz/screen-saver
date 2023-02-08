@@ -20,6 +20,11 @@
 	z-index: 1;
 }
 
+.digit-card[data-current][data-top] {
+  z-index: 1;
+  background-color: green;
+}
+
 .digit-card[data-bottom] {
 	clip-path: polygon(0% 50%, 0% 100%, 100% 100%, 100% 50%);
 }
@@ -28,10 +33,14 @@
 	clip-path: polygon(0% 0%, 0% 50%, 100% 50%, 100% 0%);
 }
 
-.digit-card[data-prev][data-bottom].animate-forward {
-	/* trans */
-	animation: flip-card var(--flip-delay) forwards;
+.digit-card[data-flip-bottom] {
+	animation: flip-card var(--flip-delay) forwards !important;
+  background: red !important;
+/*   z-index: 0 !important; */
 }
+
+/* .digit-card[data-prev][data-bottom].animate-forward {
+} */
 
 .digit-card[data-hide] {
 	z-index: 0;
