@@ -34,7 +34,9 @@ async function createAppWindow() {
 		}
 	})
 
-	mainWindow.setAlwaysOnTop(true, 'screen-saver')
+	if (!isDev) {
+		mainWindow.setAlwaysOnTop(true, 'screen-saver')
+	}
 	splashWindow.setAlwaysOnTop(true, 'pop-up-menu')
 	mainWindow.autoHideMenuBar = true;
 	mainWindow.on('close', () => { // closing the main window should close all other windows, too.
