@@ -4,53 +4,43 @@
 	}
 }
 
+/*
+has to be a seperate @keyframes to get around a CSS spec.
+*/
+@keyframes flip-card-rev {
+	0% {
+		transform: rotateX(-90deg);
+	}
+
+	100% {
+		transform: rotateX(0deg);
+	}
+}
+
 :root {
-	--flip-delay: .15s;
+	--flip-delay: 200ms;
 }
 
 .digit {
 	display: grid;
 }
 
-.digit-card[data-prev] {
-	z-index: 2;
-}
-
-.digit-card[data-current] {
-	z-index: 1;
-}
-
-.digit-card[data-current][data-top] {
-  z-index: 1;
-  background-color: green;
-}
-
-.digit-card[data-bottom] {
+.digit-card.bottom {
 	clip-path: polygon(0% 50%, 0% 100%, 100% 100%, 100% 50%);
 }
 
-.digit-card[data-top] {
+.digit-card.top {
 	clip-path: polygon(0% 0%, 0% 50%, 100% 50%, 100% 0%);
 }
 
-.digit-card[data-flip-bottom] {
-	animation: flip-card var(--flip-delay) forwards !important;
-  background: red !important;
-/*   z-index: 0 !important; */
+.digit-card.bottom.flip {
+	animation: flip-card var(--flip-delay) forwards;
+	/*   z-index: 0 !important; */
 }
 
-/* .digit-card[data-prev][data-bottom].animate-forward {
-} */
-
-.digit-card[data-hide] {
-	z-index: 0;
+.digit-card.top.flip {
+	animation: flip-card-rev var(--flip-delay) forwards;
 }
-
-.digit-card[data-show] {
-	z-index: 3;
-	animation: flip-card var(--flip-delay) reverse forwards;
-}
-
 
 .digit-card {
 	height: 100%;
@@ -68,4 +58,7 @@
 
 	grid-column: 1;
 	grid-row: 1;
+
+	pointer-events: none;
+	user-select: none;
 }
