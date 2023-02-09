@@ -23,26 +23,6 @@ app.on('ready', () => {
 		app.quit()
 	})
 
-	// ipcMain.on("fullscreenon", () => {
-	// 	getMainWindow().setAlwaysOnTop(true, 'screen-saver');
-	// 	getMainWindow().setFullScreen(true);
-	// })
-	// //The order of the commands is important below
-	// //don't setAlwaysOnTop() before getting out of fullscreen.
-	// ipcMain.on("fullscreenoff", () => {
-	// 	getMainWindow().setFullScreen(false);
-	// 	getMainWindow().setAlwaysOnTop(true, 'floating')
-	// })
-
-	// ipcMain.handle('auth:get-profile', authService.getProfile)
-	// ipcMain.handle('api:get-private-data', apiService.getPrivateData)
-	// ipcMain.on('auth:log-out', () => {
-	// 	for (const window of BrowserWindow.getAllWindows()) {
-	// 		window.close()
-	// 	}
-	// 	createLogoutWindow()
-	// })
-
 	showWindow()
 })
 

@@ -34,14 +34,13 @@ async function createAppWindow() {
 		}
 	})
 
-	if (!isDev) {
-		mainWindow.setAlwaysOnTop(true, 'screen-saver')
-	}
+	mainWindow.setAlwaysOnTop(true, 'screen-saver')
 	splashWindow.setAlwaysOnTop(true, 'pop-up-menu')
-	mainWindow.autoHideMenuBar = true;
+	mainWindow.autoHideMenuBar = true
 	mainWindow.on('close', () => { // closing the main window should close all other windows, too.
 		splashWindow?.close?.()
 	})
+	mainWindow.setBackgroundColor('#232222')
 
 	splashWindow.loadFile('./public/splash.html')
 	mainWindow.loadURL(

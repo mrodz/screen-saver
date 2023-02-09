@@ -21,6 +21,18 @@ has to be a seperate @keyframes to get around a CSS spec.
 	--flip-delay: 200ms;
 }
 
+.clock {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+
+	pointer-events: none;
+	user-select: none;
+
+	font-size: 150%;
+}
+
 .digit {
 	display: grid;
 }
@@ -42,12 +54,16 @@ has to be a seperate @keyframes to get around a CSS spec.
 	animation: flip-card-rev var(--flip-delay) forwards;
 }
 
+.clock-colon {
+	font-size: 900%;
+}
+
 .digit-card {
 	height: 100%;
 	box-sizing: border-box;
 
-	background: rgb(255, 253, 204);
-	background: linear-gradient(90deg, rgba(255, 253, 204, 1) 0%, rgba(236, 226, 185, 1) 56%, rgba(251, 255, 184, 1) 100%);
+	background: #201a1a;
+	background: linear-gradient(135deg, #201a1a 0%, #232222 50%, #201a1a 100%);
 
 	border-radius: 15px;
 
@@ -58,7 +74,9 @@ has to be a seperate @keyframes to get around a CSS spec.
 
 	grid-column: 1;
 	grid-row: 1;
+}
 
-	pointer-events: none;
-	user-select: none;
+.digit:nth-of-type(2n) {
+	/* border-top: solid red 5px; */
+	margin-left: 1rem;
 }
