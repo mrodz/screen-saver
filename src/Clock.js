@@ -1,42 +1,40 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import "./Clock.css"
 
 function Digit({ baseTenDigit }) {
-  const delay = 150
+  const delay = 200
 
-  // const [number, setNumber] = useState(baseTenDigit)
-  // const [next, setNext] = useState((baseTenDigit + 1) % 10)
-
-
-
-  const topPrev = useRef(null)
-  const topNext = useRef(null)
-  const bottom = useRef(null)
-
-  // debugger;
+  const [{ top, flip }, setState] = useState({ top: baseTenDigit, flip: baseTenDigit })
+  const bottom = baseTenDigit // bottom is always same as prop
+  const flipOnBottom = flip != bottom // will show prev on bottom
+  const isFlipping = top != baseTenDigit || flip != baseTenDigit
 
   useEffect(() => {
-    bottom.current?.setAttribute?.("data-flip-bottom", true)
-    topPrev.current?.removeAttribute?.("data-show")
+    // if (!isFlipping) return
 
     const id = setTimeout(() => {
-      topPrev.current?.setAttribute?.("data-show", true)
-      bottom.current?.removeAttribute?.("data-flip-bottom")
+      const newState = flipOnBottom ? { flip: baseTenDigit } : { top: baseTenDigit }
+
+      setState(state => ({ ...state, ...newState }))
     }, delay)
 
     return () => clearTimeout(id)
-  }, [baseTenDigit])
+  }, [isFlipping, flipOnBottom])
 
   return (
     <>
       <br /><br /><br />
-      current = {baseTenDigit}, next = {next}
       <div className="digit">
-        <div className="digit-card" data-top data-prev ref={topPrev}>{number}</div>
-        <div className="digit-card" data-bottom data-prev ref={bottom}>{number}</div>
+        <div className="digit-card top">
+          {top}
+        </div>
+        <div className="digit-card bottom">
+          {bottom}
+        </div>
 
-        <div className="digit-card" data-top data-current>{next}</div>
-        <div className="digit-card" data-bottom data-current>{next}</div>
+        {isFlipping && <div className={"digit-card flip " + (flipOnBottom ? "bottom" : "top")}>
+          {flip}
+        </div>}
       </div>
     </>
   )
@@ -58,12 +56,12 @@ function useDigit(startAt) {
 }
 
 export default function Clock() {
-  const [time, setTime] = useState(new Date());
-  const [seconds, incrementSeconds] = useDigit(0);
+  const [time, setTime] = useState(new Date())
+  const [seconds, incrementSeconds] = useDigit(0)
 
   const updateClock = () => {
-    setTime(new Date())
-    // incrementSeconds()
+    // setTime(new Date())
+    incrementSeconds()
     // setTime((time) => (time ?? 0) + 1)
   }
 
@@ -73,7 +71,7 @@ export default function Clock() {
     const ms = onPageLoad.getMilliseconds()
     const nextUpdateTick = 1_000 - ms
 
-    const timeoutId = setTimeout(() => { }, nextUpdateTick);
+    const timeoutId = setTimeout(() => { }, nextUpdateTick)
 
     const intervalId = setInterval(updateClock, 1_000)
 
@@ -89,7 +87,7 @@ export default function Clock() {
 
       <Digit baseTenDigit={seconds} />
 
-      <button onClick={() => incrementSeconds()}>+++++</button>
+      {/* <button onClick={() => incrementSeconds()}>+++++</button> */}
       <br />
       <br />
       <br />
