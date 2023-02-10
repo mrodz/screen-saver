@@ -1,7 +1,7 @@
-const { BrowserWindow } = require('electron')
+const { BrowserWindow, app } = require('electron')
 
 const path = require('path')
-const isDev = require('electron-is-dev')
+const build = app.isPackaged
 
 let mainWindow = null
 let splashWindow = null
@@ -20,6 +20,7 @@ async function createAppWindow() {
 			nodeIntegration: true,
 			preload: path.join(__dirname, 'preload.js')
 		},
+		icon: path.join(__dirname, '/../app.ico')
 	})
 
 	splashWindow = new BrowserWindow({
@@ -31,27 +32,34 @@ async function createAppWindow() {
 		resizable: false,
 		webPreferences: {
 			nodeIntegration: true,
-		}
+			preload: path.join(__dirname, 'splash-preload.js')
+		},
+		icon: path.join(__dirname, '/../app.ico')
 	})
 
-	mainWindow.setAlwaysOnTop(true, 'screen-saver')
-	splashWindow.setAlwaysOnTop(true, 'pop-up-menu')
+	mainWindow.setAlwaysOnTop(build, 'screen-saver')
+	splashWindow.setAlwaysOnTop(true, 'screen-saver')
 	mainWindow.autoHideMenuBar = true
 	mainWindow.on('close', () => { // closing the main window should close all other windows, too.
 		splashWindow?.close?.()
 	})
+
 	mainWindow.setBackgroundColor('#232222')
+	splashWindow.setBackgroundColor('#232222')
+
+	const buildPath = `file://${path.join(__dirname, '../../build/index.html')}`
 
 	splashWindow.loadFile('./public/splash.html')
 	mainWindow.loadURL(
-		isDev
-			? 'http://localhost:3000'
-			: `file://${path.join(__dirname, '../build/index.html')}`
+		build
+			? buildPath
+			: 'http://localhost:3000'
 	)
 }
 
 module.exports = {
 	createAppWindow,
 	getMainWindow,
-	getSplashWindow
+	getSplashWindow,
+	build
 }

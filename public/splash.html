@@ -27,7 +27,7 @@
 			background-color: #232222;
 		}
 
-		h1 {
+		h1, #description {
 			font-family: 'splash';
 			color: #fff;
 			text-transform: uppercase;
@@ -41,11 +41,14 @@
 			height: 100%;
 		}
 
-		/*.center-v {
-			display: flex;
-			flex-direction: row;
-			
-		}*/
+		* {
+			user-select: none;
+			pointer-events: none;
+		}
+
+		#description {
+			font-size: 70%;
+		}
 	</style>
 
 	<style>
@@ -131,6 +134,18 @@
 			}
 		}
 	</style>
+
+	<script defer>
+		let message = "Booting up"
+		let dots = 0
+
+		window.electron.message().then(m => message = m)
+
+		setInterval(() => {
+			document.getElementById("description").innerText = `${message} ${'.'.repeat(dots++)}`
+			if (dots > 3) dots = 0
+		}, 333)
+	</script>
 </head>
 
 <body>
@@ -149,6 +164,9 @@
 		<h1>
 			Loading
 		</h1>
+		<h4 id="description">
+			Initializing ...
+		</h4>
 	</main>
 </body>
 

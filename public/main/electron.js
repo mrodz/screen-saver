@@ -23,6 +23,8 @@ app.on('ready', () => {
 		app.quit()
 	})
 
+	ipcMain.handle('splash:get-message', () => app.isPackaged ? "Fetching DOM" : "Waiting for TCP Dev Server")
+
 	showWindow()
 })
 

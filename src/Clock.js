@@ -7,6 +7,7 @@ import {
 } from "react"
 import "./Clock.css"
 
+
 /**
  * Single digit of a display.
  * @function
@@ -49,6 +50,8 @@ const Digit = memo(({ baseTenDigit }) => {
 	)
 })
 
+const DIGIT_FLIP_DELAY = 150
+
 /**
  * @callback rolloverFn
  * @returns {void}
@@ -83,7 +86,7 @@ function useDigit(startAt, limit = 10, rolloverCb = undefined) {
 			if (inc > oneLess) {
 				incDelayId.current = setTimeout(() => {
 					rolloverCb?.()
-				}, 150)
+				}, DIGIT_FLIP_DELAY)
 			}
 
 			return inc % limit
@@ -147,6 +150,7 @@ export default function Clock() {
 	const [seconds0, incrementSeconds0] = useDigit(pageLoad.current.seconds[1], 10, incrementSeconds1)
 
 	const updateClock = useCallback(() => {
+		pageLoad.current = new ClockTimeFormat(new Date())
 		incrementSeconds0()
 	}, [incrementSeconds0])
 
@@ -163,7 +167,7 @@ export default function Clock() {
 		const nextUpdateTick = 1_000 - ms
 
 		const timeoutId = setTimeout(() => { }, nextUpdateTick) // get caught up with the times.
-		const intervalId = setInterval(updateClock, 1000)
+		const intervalId = setInterval(updateClock, 1000 - DIGIT_FLIP_DELAY / 10)
 
 		// in case of component dismount, kill timeouts.
 		return () => {
