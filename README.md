@@ -11,11 +11,15 @@ _Shoutout to [@Scoder12](https://github.com/Scoder12) for help with animations :
 ---
 ## Usage
 ### Dev
-`$ npm i` + `$ npm run dev`
-- spins up a React Development Server and runs Electron in dev mode.
+Spins up a React Development Server and runs Electron in dev mode.
+- `$ npm i`
+- `$ npm run dev`
 ### Prod
-`$ npm i` + `$ npm run build` + (`$ electron-bundler .` | `YOUR_BUILD_SYSTEM_HERE`)
-- compiles and minifies React JSX, then bundles the app as a .exe 
+compiles and minifies React JSX, then bundles the app as a .exe 
+- `$ npm i`
+- `$ npm run build`
+- `$ npx electron-packager . "Screen Saver BUILD"  --overwrite --asar=true --platform=win32 --arch=ia32 --icon=public/app.ico --prune=true --out=release-builds --version-string.CompanyName=mrodz --version-string.FileDescription="Screen saver" --version-string.ProductName="Landing Page"`
+  - Any build packager works, really. This is just an example.
 
 ---
 Enjoy ⏰
